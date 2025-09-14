@@ -1,0 +1,47 @@
+baseURL = 'https://Tallisgo.github.io/'
+languageCode = 'zh-cn'
+title = 'Tallis Blog'
+theme = 'PaperMod'
+
+[params]
+  env = 'production'
+  title = 'Tallis Blog'
+  description = '我的个人博客'
+  keywords = ["Blog", "Hugo", "PaperMod"]
+  author = 'Tallis'
+
+
+[menu]
+  [[menu.main]]
+    identifier = 'home'
+    name = '首页'
+    url = '/'
+    weight = 10
+  
+  [[menu.main]]
+    identifier = 'posts'
+    name = '文章'
+    url = '/posts/'
+    weight = 20
+  
+  [[menu.main]]
+    identifier = 'tags'
+    name = '标签'
+    url = '/tags/'
+    weight = 30
+  
+  [[menu.main]]
+    identifier = 'search'
+    name = '搜索'
+    url = '/search/'
+    weight = 40
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    style = 'github'
