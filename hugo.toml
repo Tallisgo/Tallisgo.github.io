@@ -1,6 +1,6 @@
 baseURL = 'https://Tallisgo.github.io/'
 languageCode = 'zh-cn'
-title = 'Tallis Blog'
+title = 'Tallis'
 theme = 'PaperMod'
 
 [params]
@@ -9,6 +9,28 @@ theme = 'PaperMod'
   description = '我的个人博客'
   keywords = ["Blog", "Hugo", "PaperMod"]
   author = 'Tallis'
+  
+  # 搜索配置
+  search = true
+  searchPage = true
+  
+  # 主题配置
+  defaultTheme = 'light'
+  disableThemeToggle = false
+  
+  # 显示配置
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  UseHugoToc = true
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = false
+  tocopen = false
 
 
 [menu]
@@ -29,12 +51,6 @@ theme = 'PaperMod'
     name = '标签'
     url = '/tags/'
     weight = 30
-  
-  [[menu.main]]
-    identifier = 'search'
-    name = '搜索'
-    url = '/search/'
-    weight = 40
 
 [markup]
   [markup.goldmark]
