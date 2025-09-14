@@ -14,6 +14,21 @@ theme = 'PaperMod'
   search = true
   searchPage = true
   
+  # 搜索选项配置
+  [params.fuseOpts]
+    iscasesensitive = false
+    includescore = false
+    includematches = false
+    minmatchcharlength = 1
+    shouldsort = true
+    findallmatches = false
+    location = 0
+    threshold = 0.4
+    distance = 100
+    ignorelocation = true
+    limit = 10
+    keys = ["title", "permalink", "summary", "content"]
+  
   # 主题配置
   defaultTheme = 'light'
   disableThemeToggle = false
@@ -51,6 +66,13 @@ theme = 'PaperMod'
     name = '标签'
     url = '/tags/'
     weight = 30
+
+  [[menu.main]]
+    identifier = 'search'
+    name = '搜索'
+    url = '/search/'
+    weight = 40
+    
 
 [markup]
   [markup.goldmark]
