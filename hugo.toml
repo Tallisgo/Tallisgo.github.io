@@ -72,7 +72,19 @@ theme = 'PaperMod'
     name = '搜索'
     url = '/search/'
     weight = 40
-    
+
+# 输出格式配置
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[outputFormats]
+  [outputFormats.JSON]
+    baseName = "index"
+    isPlainText = true
+    mediaType = "application/json"
+    notAlternative = true
 
 [markup]
   [markup.goldmark]
