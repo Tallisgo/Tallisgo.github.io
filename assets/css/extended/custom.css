@@ -1,0 +1,100 @@
+/* 代码块亮色主题样式 - 浅色背景 (#fafbfc 是非常浅的灰色，接近白色但更柔和) */
+/* 覆盖所有可能的代码块选择器，包括 Chroma 生成的样式 */
+
+/* 覆盖 Chroma 的背景色（这是关键！） */
+.post-content .chroma,
+.post-content .chroma.bg,
+.post-content pre.chroma,
+.post-content .highlight pre.chroma,
+.post-content .highlight .chroma {
+    background-color: #fafbfc !important;
+    color: #24292e !important;
+}
+
+/* 覆盖代码块容器 */
+.post-content .highlight:not(table),
+.post-content .highlight,
+.post-content pre.highlight,
+.post-content div.highlight {
+    background: #fafbfc !important;
+    border: 1px solid #d0d7de !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 覆盖代码内容 */
+.post-content pre code,
+.post-content .highlight pre code,
+.post-content .highlight code,
+.post-content pre.chroma code,
+.post-content .chroma code {
+    color: #24292e !important;
+    background: #fafbfc !important;
+}
+
+/* 确保代码块文字在亮色背景下可见 */
+.post-content .highlight pre code,
+.post-content .highlight code,
+.post-content .highlight pre,
+.post-content .chroma pre {
+    color: #24292e !important;
+}
+
+/* 行号颜色调整 - 更柔和的颜色 */
+.post-content .highlight .lnt,
+.post-content .highlight .ln,
+.post-content .chroma .lnt,
+.post-content .chroma .ln {
+    color: #8b949e !important;
+}
+
+/* 代码块表格容器 */
+.post-content .highlighttable {
+    background: #fafbfc !important;
+}
+
+.post-content .highlighttable td {
+    background: #fafbfc !important;
+}
+
+.post-content .highlighttable .highlight {
+    background: #fafbfc !important;
+}
+
+/* 内联代码也使用亮色背景 */
+.post-content code:not(pre code) {
+    background: #f6f8fa !important;
+    color: #24292e !important;
+}
+
+/* 调整代码高亮颜色 - 让数字和字符串更柔和 */
+/* 数字颜色 - 从亮橙色改为柔和的棕色 */
+.post-content .chroma .m,
+.post-content .chroma .mb,
+.post-content .chroma .mf,
+.post-content .chroma .mh,
+.post-content .chroma .mi,
+.post-content .chroma .il,
+.post-content .chroma .mo {
+    color: #986801 !important;
+    /* 柔和的棕色 */
+}
+
+/* 字符串颜色 - 从亮绿色改为柔和的绿色 */
+.post-content .chroma .s,
+.post-content .chroma .sa,
+.post-content .chroma .sb,
+.post-content .chroma .sc,
+.post-content .chroma .s2,
+.post-content .chroma .si,
+.post-content .chroma .sx,
+.post-content .chroma .s1,
+.post-content .chroma .ss {
+    color: #0e5927 !important;
+    /* 柔和的深绿色 */
+}
+
+/* 字符串分隔符 - 更柔和的颜色 */
+.post-content .chroma .dl {
+    color: #6a737d !important;
+    /* 柔和的灰色 */
+}
