@@ -46,12 +46,27 @@ async function queryNotionDatabase(notion) {
     // 查找 Status 属性
     const properties = database.properties;
     let statusPropertyName = null;
+
+    // 调试：打印所有属性
+    console.log('数据库属性列表:');
+    for (const [key, prop] of Object.entries(properties)) {
+        console.log(`  - ${key} (${prop.type}) - 显示名称: ${prop.name || 'N/A'}`);
+        if (prop.type === 'select') {
+            console.log(`    选项: ${JSON.stringify(prop.select?.options?.map(o => o.name) || [])}`);
+        }
+    }
+
     for (const [key, prop] of Object.entries(properties)) {
         if (prop.type === 'select' &&
             (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
             statusPropertyName = key;
+            console.log(`找到 Status 属性: ${key} (显示名称: ${prop.name})`);
             break;
         }
+    }
+
+    if (!statusPropertyName) {
+        console.warn('警告: 未找到 Status 属性，将获取所有页面并在客户端过滤');
     }
 
     const allPages = [];
@@ -82,13 +97,58 @@ async function queryNotionDatabase(notion) {
 
         // 如果无法使用过滤，在客户端过滤
         let pages = response.results;
+
+        // 调试：打印每个页面的 Status
+        if (pages.length > 0) {
+            console.log(`\n查询到 ${pages.length} 个页面，检查 Status:`);
+            pages.forEach((page, index) => {
+                const props = page.properties || {};
+                let title = 'Untitled';
+                let statusValue = 'null';
+
+                // 获取标题
+                for (const [key, prop] of Object.entries(props)) {
+                    if (prop.type === 'title' && (key.toLowerCase() === 'title' || prop.name?.toLowerCase() === 'title')) {
+                        title = prop.title?.map((item) => item.plain_text).join('') || 'Untitled';
+                        break;
+                    }
+                }
+
+                // 获取 Status
+                for (const [key, prop] of Object.entries(props)) {
+                    if (prop.type === 'select' &&
+                        (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
+                        statusValue = prop.select?.name || 'null';
+                        break;
+                    }
+                }
+
+                console.log(`  页面 ${index + 1}: "${title}" - Status: "${statusValue}"`);
+            });
+        }
+
         if (!statusPropertyName) {
             pages = pages.filter((page) => {
                 const props = page.properties || {};
                 for (const [key, prop] of Object.entries(props)) {
                     if (prop.type === 'select' &&
                         (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
-                        return prop.select?.name === 'Done';
+                        const statusValue = prop.select?.name;
+                        // 不区分大小写比较
+                        return statusValue && statusValue.toLowerCase() === 'done';
+                    }
+                }
+                return false;
+            });
+        } else {
+            // 即使使用了 API 过滤，也进行客户端验证（不区分大小写）
+            pages = pages.filter((page) => {
+                const props = page.properties || {};
+                for (const [key, prop] of Object.entries(props)) {
+                    if (prop.type === 'select' &&
+                        (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
+                        const statusValue = prop.select?.name;
+                        return statusValue && statusValue.toLowerCase() === 'done';
                     }
                 }
                 return false;
