@@ -107,6 +107,10 @@ jobs:
       pages: write
       id-token: write
     steps:
+      - name: Debug - Check build result
+        run: |
+          echo "Build job result: ${{ needs.build.result }}"
+          echo "Build job conclusion: ${{ needs.build.conclusion }}"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
