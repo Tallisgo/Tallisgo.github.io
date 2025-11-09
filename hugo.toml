@@ -10,6 +10,9 @@ theme = 'PaperMod'
   keywords = ["Blog", "Hugo", "PaperMod"]
   author = 'Tallis'
   
+  # 主内容区域配置
+  mainSections = ["posts"]
+  
   # 搜索配置
   search = true
   searchPage = true
@@ -72,6 +75,11 @@ theme = 'PaperMod'
     name = '搜索'
     url = '/search/'
     weight = 40
+
+# 分页配置
+[pagination]
+  # 首页每页显示的文章数量（设置为较大的值以显示所有文章）
+  pagerSize = 20
 
 # 输出格式配置
 [outputs]

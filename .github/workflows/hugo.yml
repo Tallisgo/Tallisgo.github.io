@@ -53,7 +53,12 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add content/posts/ static/images/
-          git diff --staged --quiet || (git commit -m "Auto-sync: Update posts and images from Notion [skip ci]" && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-sync: Update posts and images from Notion [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
 
   build:
     runs-on: ubuntu-latest
