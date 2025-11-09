@@ -61,8 +61,12 @@ async function queryNotionDatabase(notion) {
     while (hasMore) {
         const queryParams = {
             database_id: NOTION_DATABASE_ID,
-            start_cursor: startCursor,
         };
+
+        // 只有当 startCursor 不为 null 时才添加
+        if (startCursor) {
+            queryParams.start_cursor = startCursor;
+        }
 
         // 如果找到了 Status 属性，添加过滤条件
         if (statusPropertyName) {
@@ -234,10 +238,16 @@ async function getPageContent(notion, pageId) {
     let startCursor = null;
 
     while (hasMore) {
-        const response = await notion.blocks.children.list({
+        const listParams = {
             block_id: pageId,
-            start_cursor: startCursor,
-        });
+        };
+
+        // 只有当 startCursor 不为 null 时才添加
+        if (startCursor) {
+            listParams.start_cursor = startCursor;
+        }
+
+        const response = await notion.blocks.children.list(listParams);
 
         allBlocks.push(...response.results);
         hasMore = response.has_more;

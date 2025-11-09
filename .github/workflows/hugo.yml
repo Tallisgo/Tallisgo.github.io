@@ -96,6 +96,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.result == 'success'
     permissions:
       pages: write
       id-token: write
