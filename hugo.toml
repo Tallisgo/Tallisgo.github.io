@@ -49,6 +49,9 @@ theme = 'PaperMod'
   hideSummary = false
   showtoc = false
   tocopen = false
+  
+  # 禁用首页第一篇文章的特殊样式（居中对齐）
+  disableSpecial1stPost = true
 
 
 [menu]

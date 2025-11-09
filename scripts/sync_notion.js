@@ -21,6 +21,7 @@ const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 // 目录路径
 const ROOT_DIR = path.resolve(__dirname, '..');
 const CONTENT_DIR = path.join(ROOT_DIR, 'content', 'posts');
+const CATEGORIES_DIR = path.join(ROOT_DIR, 'content', 'categories');
 const STATIC_DIR = path.join(ROOT_DIR, 'static');
 const IMAGES_DIR = path.join(STATIC_DIR, 'images', 'posts');
 
@@ -525,6 +526,38 @@ function formatDate(dateStr) {
 }
 
 /**
+ * 为分类创建或更新 _index.md 文件
+ */
+async function ensureCategoryIndex(category) {
+    if (!category) {
+        return;
+    }
+
+    // 清理分类名称，确保是安全的文件夹名
+    const categoryDir = sanitizeFilename(category);
+    const categoryPath = path.join(CATEGORIES_DIR, categoryDir);
+    const indexFile = path.join(categoryPath, '_index.md');
+
+    try {
+        // 检查文件是否已存在
+        await fs.access(indexFile);
+        console.log(`  分类索引已存在: ${indexFile}`);
+    } catch {
+        // 文件不存在，创建它
+        await fs.mkdir(categoryPath, { recursive: true });
+
+        // 创建 _index.md 文件
+        const indexContent = `---
+title: "${category}"
+description: "${category} 分类下的所有文章"
+---`;
+
+        await fs.writeFile(indexFile, indexContent, 'utf-8');
+        console.log(`  ✓ 已创建分类索引: ${indexFile}`);
+    }
+}
+
+/**
  * 从 Notion 页面创建 Hugo 文章
  */
 async function createHugoPost(notion, page) {
@@ -627,6 +660,9 @@ async function createHugoPost(notion, page) {
     await fs.writeFile(filepath, fileContent, 'utf-8');
     const categoryInfo = category ? ` [分类: ${category}]` : '';
     console.log(`✓ 已创建文章: ${filepath}${categoryInfo}`);
+
+    // 返回分类信息，用于后续统一处理
+    return { category };
 }
 
 /**
@@ -657,17 +693,32 @@ async function main() {
         const pages = await queryNotionDatabase(notion);
         console.log(`找到 ${pages.length} 个状态为 "Done" 的页面`);
 
+        // 确保分类目录存在
+        await fs.mkdir(CATEGORIES_DIR, { recursive: true });
+
+        // 收集所有使用的分类
+        const categoriesSet = new Set();
+
         // 处理每个页面
         for (const page of pages) {
             try {
-                await createHugoPost(notion, page);
+                const result = await createHugoPost(notion, page);
+                if (result && result.category) {
+                    categoriesSet.add(result.category);
+                }
             } catch (error) {
                 console.error(`处理页面时出错:`, error.message);
                 continue;
             }
         }
 
-        console.log('同步完成！');
+        // 为所有分类创建索引文件（包括可能没有文章的分类）
+        console.log('\n检查分类索引文件...');
+        for (const category of categoriesSet) {
+            await ensureCategoryIndex(category);
+        }
+
+        console.log('\n同步完成！');
     } catch (error) {
         console.error('同步失败:', error.message);
         process.exit(1);
