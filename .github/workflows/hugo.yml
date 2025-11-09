@@ -101,7 +101,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
-    if: needs.build.result == 'success'
+    # 使用 always() 确保即使 build 有问题也能看到调试信息
+    if: always() && needs.build.result == 'success'
     permissions:
       contents: read
       pages: write
@@ -109,8 +110,16 @@ jobs:
     steps:
       - name: Debug - Check build result
         run: |
+          echo "=== Debug Information ==="
           echo "Build job result: ${{ needs.build.result }}"
           echo "Build job conclusion: ${{ needs.build.conclusion }}"
+          echo "GitHub event: ${{ github.event_name }}"
+          echo "GitHub ref: ${{ github.ref }}"
+          echo "========================="
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            echo "ERROR: Build job result is not 'success'"
+            exit 1
+          fi
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
