@@ -1,0 +1,13 @@
+{
+    "name": "tallis-blog",
+    "version": "1.0.0",
+    "description": "Hugo blog with Notion sync",
+    "type": "module",
+    "scripts": {
+        "sync-notion": "node scripts/sync_notion.js"
+    },
+    "dependencies": {
+        "@notionhq/client": "^2.2.15",
+        "axios": "^1.6.2"
+    }
+}
