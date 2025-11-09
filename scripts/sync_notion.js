@@ -46,6 +46,7 @@ async function queryNotionDatabase(notion) {
     // 查找 Status 属性
     const properties = database.properties;
     let statusPropertyName = null;
+    let statusPropertyType = null;
 
     // 调试：打印所有属性
     console.log('数据库属性列表:');
@@ -53,14 +54,18 @@ async function queryNotionDatabase(notion) {
         console.log(`  - ${key} (${prop.type}) - 显示名称: ${prop.name || 'N/A'}`);
         if (prop.type === 'select') {
             console.log(`    选项: ${JSON.stringify(prop.select?.options?.map(o => o.name) || [])}`);
+        } else if (prop.type === 'status') {
+            console.log(`    选项: ${JSON.stringify(prop.status?.options?.map(o => o.name) || [])}`);
         }
     }
 
+    // 查找 Status 属性（支持 select 和 status 两种类型）
     for (const [key, prop] of Object.entries(properties)) {
-        if (prop.type === 'select' &&
+        if ((prop.type === 'select' || prop.type === 'status') &&
             (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
             statusPropertyName = key;
-            console.log(`找到 Status 属性: ${key} (显示名称: ${prop.name})`);
+            statusPropertyType = prop.type;
+            console.log(`找到 Status 属性: ${key} (类型: ${prop.type}, 显示名称: ${prop.name})`);
             break;
         }
     }
@@ -85,12 +90,21 @@ async function queryNotionDatabase(notion) {
 
         // 如果找到了 Status 属性，添加过滤条件
         if (statusPropertyName) {
-            queryParams.filter = {
-                property: statusPropertyName,
-                select: {
-                    equals: 'Done',
-                },
-            };
+            if (statusPropertyType === 'status') {
+                queryParams.filter = {
+                    property: statusPropertyName,
+                    status: {
+                        equals: 'Done',
+                    },
+                };
+            } else if (statusPropertyType === 'select') {
+                queryParams.filter = {
+                    property: statusPropertyName,
+                    select: {
+                        equals: 'Done',
+                    },
+                };
+            }
         }
 
         const response = await notion.databases.query(queryParams);
@@ -114,11 +128,15 @@ async function queryNotionDatabase(notion) {
                     }
                 }
 
-                // 获取 Status
+                // 获取 Status（支持 select 和 status 两种类型）
                 for (const [key, prop] of Object.entries(props)) {
-                    if (prop.type === 'select' &&
+                    if ((prop.type === 'select' || prop.type === 'status') &&
                         (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
-                        statusValue = prop.select?.name || 'null';
+                        if (prop.type === 'status') {
+                            statusValue = prop.status?.name || 'null';
+                        } else {
+                            statusValue = prop.select?.name || 'null';
+                        }
                         break;
                     }
                 }
@@ -131,9 +149,11 @@ async function queryNotionDatabase(notion) {
             pages = pages.filter((page) => {
                 const props = page.properties || {};
                 for (const [key, prop] of Object.entries(props)) {
-                    if (prop.type === 'select' &&
+                    if ((prop.type === 'select' || prop.type === 'status') &&
                         (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
-                        const statusValue = prop.select?.name;
+                        const statusValue = prop.type === 'status'
+                            ? prop.status?.name
+                            : prop.select?.name;
                         // 不区分大小写比较
                         return statusValue && statusValue.toLowerCase() === 'done';
                     }
@@ -145,9 +165,11 @@ async function queryNotionDatabase(notion) {
             pages = pages.filter((page) => {
                 const props = page.properties || {};
                 for (const [key, prop] of Object.entries(props)) {
-                    if (prop.type === 'select' &&
+                    if ((prop.type === 'select' || prop.type === 'status') &&
                         (key.toLowerCase() === 'status' || prop.name?.toLowerCase() === 'status')) {
-                        const statusValue = prop.select?.name;
+                        const statusValue = prop.type === 'status'
+                            ? prop.status?.name
+                            : prop.select?.name;
                         return statusValue && statusValue.toLowerCase() === 'done';
                     }
                 }
