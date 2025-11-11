@@ -74,8 +74,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: master
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
