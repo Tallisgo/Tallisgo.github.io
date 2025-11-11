@@ -50,8 +50,8 @@ jobs:
           npm run sync-notion
       - name: Commit and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "${{ secrets.GITHUB_USER_EMAIL }}"
+          git config --local user.name "${{ secrets.GITHUB_USER_NAME }}"
           git add content/posts/ static/images/
           if ! git diff --staged --quiet; then
             git commit -m "Auto-sync: Update posts and images from Notion [skip ci]"
