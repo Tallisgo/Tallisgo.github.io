@@ -1,100 +1,262 @@
-/* 代码块亮色主题样式 - 浅色背景 (#fafbfc 是非常浅的灰色，接近白色但更柔和) */
-/* 覆盖所有可能的代码块选择器，包括 Chroma 生成的样式 */
+/* 代码块样式 - 支持亮色和暗色模式自动切换 */
+/* 覆盖所有可能的代码块选择器，包括内联样式和 Chroma 生成的样式 */
 
-/* 覆盖 Chroma 的背景色（这是关键！） */
-.post-content .chroma,
-.post-content .chroma.bg,
-.post-content pre.chroma,
-.post-content .highlight pre.chroma,
-.post-content .highlight .chroma {
-    background-color: #fafbfc !important;
+/* 亮色模式下的代码块样式 - 明确使用浅色背景 */
+body:not(.dark) .post-content .highlight,
+body:not(.dark) .post-content .highlight>div,
+body:not(.dark) .post-content .highlight table,
+body:not(.dark) .post-content .highlight table td,
+body:not(.dark) .post-content .highlight pre,
+body:not(.dark) .post-content .highlight pre code,
+body:not(.dark) .post-content .highlight code,
+body:not(.dark) .post-content .chroma,
+body:not(.dark) .post-content .chroma.bg,
+body:not(.dark) .post-content pre.chroma,
+body:not(.dark) .post-content .highlight pre.chroma,
+body:not(.dark) .post-content .highlight .chroma,
+body:not(.dark) .post-content div.highlight {
+    background: #f6f8fa !important;
+    background-color: #f6f8fa !important;
     color: #24292e !important;
 }
 
-/* 覆盖代码块容器 */
-.post-content .highlight:not(table),
-.post-content .highlight,
-.post-content pre.highlight,
-.post-content div.highlight {
-    background: #fafbfc !important;
-    border: 1px solid #d0d7de !important;
+/* 暗色模式下的代码块样式 */
+body.dark .post-content .highlight,
+body.dark .post-content .highlight>div,
+body.dark .post-content .highlight table,
+body.dark .post-content .highlight table td,
+body.dark .post-content .highlight pre,
+body.dark .post-content .highlight pre code,
+body.dark .post-content .highlight code,
+body.dark .post-content .chroma,
+body.dark .post-content .chroma.bg,
+body.dark .post-content pre.chroma,
+body.dark .post-content .highlight pre.chroma,
+body.dark .post-content .highlight .chroma,
+body.dark .post-content div.highlight {
+    background: var(--code-block-bg) !important;
+    background-color: var(--code-block-bg) !important;
+    color: var(--content) !important;
+}
+
+/* 覆盖内联样式 - 亮色模式 */
+body:not(.dark) .post-content .highlight>div[style],
+body:not(.dark) .post-content .highlight pre[style],
+body:not(.dark) .post-content .highlight pre code[style] {
+    background: #f6f8fa !important;
+    background-color: #f6f8fa !important;
+    color: #24292e !important;
+}
+
+/* 覆盖内联样式 - 暗色模式 */
+body.dark .post-content .highlight>div[style],
+body.dark .post-content .highlight pre[style],
+body.dark .post-content .highlight pre code[style] {
+    background: var(--code-block-bg) !important;
+    background-color: var(--code-block-bg) !important;
+    color: var(--content) !important;
+}
+
+/* 代码块容器 */
+.post-content .highlight:not(table) {
+    border: 1px solid var(--border) !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* 覆盖代码内容 */
-.post-content pre code,
-.post-content .highlight pre code,
-.post-content .highlight code,
-.post-content pre.chroma code,
-.post-content .chroma code {
+/* 代码内容 - 亮色模式 */
+body:not(.dark) .post-content pre code,
+body:not(.dark) .post-content .highlight pre code,
+body:not(.dark) .post-content .highlight code,
+body:not(.dark) .post-content pre.chroma code,
+body:not(.dark) .post-content .chroma code {
     color: #24292e !important;
-    background: #fafbfc !important;
-}
-
-/* 确保代码块文字在亮色背景下可见 */
-.post-content .highlight pre code,
-.post-content .highlight code,
-.post-content .highlight pre,
-.post-content .chroma pre {
-    color: #24292e !important;
-}
-
-/* 行号颜色调整 - 更柔和的颜色 */
-.post-content .highlight .lnt,
-.post-content .highlight .ln,
-.post-content .chroma .lnt,
-.post-content .chroma .ln {
-    color: #8b949e !important;
-}
-
-/* 代码块表格容器 */
-.post-content .highlighttable {
-    background: #fafbfc !important;
-}
-
-.post-content .highlighttable td {
-    background: #fafbfc !important;
-}
-
-.post-content .highlighttable .highlight {
-    background: #fafbfc !important;
-}
-
-/* 内联代码也使用亮色背景 */
-.post-content code:not(pre code) {
     background: #f6f8fa !important;
+    background-color: #f6f8fa !important;
+}
+
+/* 代码内容 - 暗色模式 */
+body.dark .post-content pre code,
+body.dark .post-content .highlight pre code,
+body.dark .post-content .highlight code,
+body.dark .post-content pre.chroma code,
+body.dark .post-content .chroma code {
+    color: var(--content) !important;
+    background: var(--code-block-bg) !important;
+    background-color: var(--code-block-bg) !important;
+}
+
+/* 确保代码块文字可见 - 亮色模式 */
+body:not(.dark) .post-content .highlight pre code,
+body:not(.dark) .post-content .highlight code,
+body:not(.dark) .post-content .highlight pre,
+body:not(.dark) .post-content .chroma pre {
     color: #24292e !important;
 }
 
-/* 调整代码高亮颜色 - 让数字和字符串更柔和 */
-/* 数字颜色 - 从亮橙色改为柔和的棕色 */
-.post-content .chroma .m,
-.post-content .chroma .mb,
-.post-content .chroma .mf,
-.post-content .chroma .mh,
-.post-content .chroma .mi,
-.post-content .chroma .il,
-.post-content .chroma .mo {
-    color: #986801 !important;
-    /* 柔和的棕色 */
+/* 确保代码块文字可见 - 暗色模式 */
+body.dark .post-content .highlight pre code,
+body.dark .post-content .highlight code,
+body.dark .post-content .highlight pre,
+body.dark .post-content .chroma pre {
+    color: var(--content) !important;
 }
 
-/* 字符串颜色 - 从亮绿色改为柔和的绿色 */
-.post-content .chroma .s,
-.post-content .chroma .sa,
-.post-content .chroma .sb,
-.post-content .chroma .sc,
-.post-content .chroma .s2,
-.post-content .chroma .si,
-.post-content .chroma .sx,
-.post-content .chroma .s1,
-.post-content .chroma .ss {
-    color: #0e5927 !important;
-    /* 柔和的深绿色 */
-}
-
-/* 字符串分隔符 - 更柔和的颜色 */
-.post-content .chroma .dl {
+/* 行号颜色 - 亮色模式 */
+body:not(.dark) .post-content .highlight .lnt,
+body:not(.dark) .post-content .highlight .ln,
+body:not(.dark) .post-content .chroma .lnt,
+body:not(.dark) .post-content .chroma .ln,
+body:not(.dark) .post-content .highlight span[style*="color:#727272"],
+body:not(.dark) .post-content .highlight span[style*="color:#8087a2"] {
     color: #6a737d !important;
-    /* 柔和的灰色 */
+    opacity: 0.7;
+}
+
+/* 行号颜色 - 暗色模式 */
+body.dark .post-content .highlight .lnt,
+body.dark .post-content .highlight .ln,
+body.dark .post-content .chroma .lnt,
+body.dark .post-content .chroma .ln,
+body.dark .post-content .highlight span[style*="color:#727272"],
+body.dark .post-content .highlight span[style*="color:#8087a2"] {
+    color: var(--secondary) !important;
+    opacity: 0.7;
+}
+
+/* 强制覆盖亮色模式下所有代码文字颜色 - 包括内联样式 */
+body:not(.dark) .post-content .highlight span[style*="color:#e5e5e5"],
+body:not(.dark) .post-content .highlight span[style*="color:#fff"],
+body:not(.dark) .post-content .highlight span[style*="color:white"],
+body:not(.dark) .post-content .highlight span[style*="color:rgb(229,229,229)"],
+body:not(.dark) .post-content .highlight span[style*="color:rgb(255,255,255)"],
+body:not(.dark) .post-content .highlight span[style*="color:#0ff"],
+body:not(.dark) .post-content .highlight span[style*="color:cyan"] {
+    color: #24292e !important;
+}
+
+/* 亮色模式下，确保所有代码块内的文字都是深色的（作为后备） */
+body:not(.dark) .post-content .highlight code,
+body:not(.dark) .post-content .highlight pre,
+body:not(.dark) .post-content .highlight code *,
+body:not(.dark) .post-content .highlight pre * {
+    color: #24292e !important;
+}
+
+
+/* 代码块表格容器 - 亮色模式 */
+body:not(.dark) .post-content .highlighttable {
+    background: #f6f8fa !important;
+}
+
+body:not(.dark) .post-content .highlighttable td {
+    background: #f6f8fa !important;
+}
+
+body:not(.dark) .post-content .highlighttable .highlight {
+    background: #f6f8fa !important;
+}
+
+/* 代码块表格容器 - 暗色模式 */
+body.dark .post-content .highlighttable {
+    background: var(--code-block-bg) !important;
+}
+
+body.dark .post-content .highlighttable td {
+    background: var(--code-block-bg) !important;
+}
+
+body.dark .post-content .highlighttable .highlight {
+    background: var(--code-block-bg) !important;
+}
+
+/* 内联代码 */
+.post-content code:not(pre code) {
+    background: var(--code-bg) !important;
+    color: var(--content) !important;
+}
+
+/* 代码高亮颜色 - 使用主题变量，在暗色模式下更清晰 */
+.dark .post-content .chroma .m,
+.dark .post-content .chroma .mb,
+.dark .post-content .chroma .mf,
+.dark .post-content .chroma .mh,
+.dark .post-content .chroma .mi,
+.dark .post-content .chroma .il,
+.dark .post-content .chroma .mo {
+    color: #f5a97f !important;
+}
+
+.dark .post-content .chroma .s,
+.dark .post-content .chroma .sa,
+.dark .post-content .chroma .sb,
+.dark .post-content .chroma .sc,
+.dark .post-content .chroma .s2,
+.dark .post-content .chroma .si,
+.dark .post-content .chroma .sx,
+.dark .post-content .chroma .s1,
+.dark .post-content .chroma .ss {
+    color: #a6da95 !important;
+}
+
+.dark .post-content .chroma .k,
+.dark .post-content .chroma .kr,
+.dark .post-content .chroma .kp {
+    color: #c6a0f6 !important;
+}
+
+.dark .post-content .chroma .nf,
+.dark .post-content .chroma .na {
+    color: #8aadf4 !important;
+}
+
+.dark .post-content .chroma .c,
+.dark .post-content .chroma .c1,
+.dark .post-content .chroma .cm {
+    color: #6e738d !important;
+    font-style: italic;
+}
+
+/* 亮色模式下的代码高亮颜色 */
+body:not(.dark) .post-content .chroma .m,
+body:not(.dark) .post-content .chroma .mb,
+body:not(.dark) .post-content .chroma .mf,
+body:not(.dark) .post-content .chroma .mh,
+body:not(.dark) .post-content .chroma .mi,
+body:not(.dark) .post-content .chroma .il,
+body:not(.dark) .post-content .chroma .mo {
+    color: #005cc5 !important;
+}
+
+body:not(.dark) .post-content .chroma .s,
+body:not(.dark) .post-content .chroma .sa,
+body:not(.dark) .post-content .chroma .sb,
+body:not(.dark) .post-content .chroma .sc,
+body:not(.dark) .post-content .chroma .s2,
+body:not(.dark) .post-content .chroma .si,
+body:not(.dark) .post-content .chroma .sx,
+body:not(.dark) .post-content .chroma .s1,
+body:not(.dark) .post-content .chroma .ss {
+    color: #032f62 !important;
+}
+
+body:not(.dark) .post-content .chroma .k,
+body:not(.dark) .post-content .chroma .kr,
+body:not(.dark) .post-content .chroma .kp {
+    color: #d73a49 !important;
+}
+
+body:not(.dark) .post-content .chroma .nf,
+body:not(.dark) .post-content .chroma .na {
+    color: #6f42c1 !important;
+}
+
+body:not(.dark) .post-content .chroma .c,
+body:not(.dark) .post-content .chroma .c1,
+body:not(.dark) .post-content .chroma .cm {
+    color: #6a737d !important;
+    font-style: italic;
+}
+
+body:not(.dark) .post-content .chroma .dl {
+    color: #6a737d !important;
 }

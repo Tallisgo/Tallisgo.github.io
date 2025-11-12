@@ -1,0 +1,81 @@
+{{- /* 移除代码块的内联样式，让CSS变量生效 */ -}}
+<script>
+    (function () {
+        // 等待DOM加载完成
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fixCodeStyles);
+        } else {
+            fixCodeStyles();
+        }
+
+        // 监听主题切换
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function () {
+                setTimeout(fixCodeStyles, 100);
+            });
+        }
+
+        function fixCodeStyles() {
+            // 获取所有代码块元素
+            const codeBlocks = document.querySelectorAll('.post-content .highlight > div[style], .post-content .highlight pre[style], .post-content .highlight pre code[style], .post-content .highlight table[style], .post-content .highlight table td[style]');
+
+            codeBlocks.forEach(function (element) {
+                // 移除内联的 background-color、background 和 color 样式
+                const style = element.getAttribute('style');
+                if (style) {
+                    let newStyle = style
+                        .replace(/background-color\s*:\s*[^;]+;?/gi, '')
+                        .replace(/background\s*:\s*[^;]+;?/gi, '')
+                        .replace(/color\s*:\s*[^;]+;?/gi, '')
+                        .replace(/;\s*;/g, ';')
+                        .replace(/^\s*;\s*|\s*;\s*$/g, '')
+                        .trim();
+
+                    // 如果还有其他样式，保留它们；否则移除style属性
+                    if (newStyle && newStyle !== ';' && newStyle.length > 0) {
+                        element.setAttribute('style', newStyle);
+                    } else {
+                        element.removeAttribute('style');
+                    }
+                }
+            });
+
+            // 移除代码块内所有 span 的内联颜色样式（包括语法高亮的颜色）
+            const codeSpans = document.querySelectorAll('.post-content .highlight span[style*="color"]');
+            codeSpans.forEach(function (element) {
+                const style = element.getAttribute('style');
+                if (style && style.includes('color')) {
+                    // 检查是否是行号（保留行号的样式，但会通过CSS覆盖）
+                    const isLineNumber = element.classList.contains('lnt') ||
+                        element.classList.contains('ln') ||
+                        (element.parentElement && element.parentElement.classList.contains('lntd'));
+
+                    if (!isLineNumber) {
+                        // 对于语法高亮的颜色，我们保留，因为CSS会覆盖它们
+                        // 但如果是黑色背景上的浅色文字，我们需要移除
+                        const hasDarkBg = style.includes('background-color:#000') ||
+                            style.includes('background:#000') ||
+                            style.includes('background-color:rgb(0,0,0)') ||
+                            style.includes('background:rgb(0,0,0)');
+
+                        if (hasDarkBg) {
+                            let newStyle = style
+                                .replace(/background-color\s*:\s*[^;]+;?/gi, '')
+                                .replace(/background\s*:\s*[^;]+;?/gi, '')
+                                .replace(/;\s*;/g, ';')
+                                .replace(/^\s*;\s*|\s*;\s*$/g, '')
+                                .trim();
+
+                            if (newStyle && newStyle !== ';' && newStyle.length > 0) {
+                                element.setAttribute('style', newStyle);
+                            } else {
+                                element.removeAttribute('style');
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    })();
+</script>

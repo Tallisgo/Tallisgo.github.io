@@ -105,4 +105,5 @@ theme = 'PaperMod'
     codeFences = true
     guessSyntax = true
     lineNos = true
-    style = 'github-light'
+    style = 'github-dark'
+    noClasses = false
