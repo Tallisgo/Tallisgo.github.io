@@ -11,7 +11,7 @@ categories: ["MLOps"]
 ```bash
 git init --bare myproject.git
 ```
-![](/images/posts/2a094928-1-91916bf2.png)
+![](/images/posts/2a094928-1-e49b1ef1.png)
 使用方式:
 ```bash
 mkdir /srv/git/
@@ -91,7 +91,7 @@ git pull <远程仓库名> <远程分支>:<本地分支>
 git pull origin dev: feature
 # 把远程的origin/dev 拉下来合并到本地的feature 分支
 ```
-## 方式一： 克隆仓库
+## git clone
 ```bash
 git clone https://codeup.aliyun.com/675feb1320a07de19c7c13a3/engines/test.git
 cd test
@@ -100,7 +100,6 @@ git add README.md
 git commit -m "add README"
 git push -u origin master
 ```
-方式二： 已有文件夹或仓库
 ```bash
 cd existing_folder
 git init
@@ -109,6 +108,69 @@ git add .
 git commit
 git push -u origin master
 ```
+## git restore
+git restore 是2019年引入的命令，用来替代传统的 git checkout 在 “撤销修改”方面的部分功能。主要作用如下：
+---
+从另一个提交、分支，或者暂存区恢复文件内容，从而撤销工作区 或者 暂存区对文件的修改。
+---
+### 撤销工作区修改
+从最近一次提交 恢复文件内容， 丢弃自上次提交以来在工作区对该文件的所有改动
+```python
+git restore <file>
+```
+### 撤销暂存区修改
+如果文件已经被 git add 添加到暂存区（已经staged），想让他回到未暂存状态，可以:
+```python
+git restore --staged <file>
+```
+暂存区的该文件版本恢复为最近一次提交的状态，但是不会修改工作区文件的内容。
+### 同时恢复暂存区 和 工作区
+```python
+git restore --source=HEAD --staged --worktree <file>
+```
+文件完全回到上一次提交的状态（撤销所有未提交的修改）
+### 从其他提交或者分支恢复文件
+指定源(—source)
+```python
+git restore --source=feature-branch <file>
+```
+### example
+假设当前项目状态如下：
+```bash
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   index.html
+
+Changes not staged for commit:
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   app.js
+
+```
+情形1：取消暂存
+```bash
+git restore --staged index.html
+
+```
+此命令会把 index.html 从暂存区拿出来，使其回到未暂存状态，工作区的修改依旧保留。
+情形2：丢弃工作区修改
+```bash
+git restore app.js
+
+```
+此命令会让 app.js 文件回到上次提交的状态，丢弃在工作目录中的所有改动。
+情形3：从指定分支恢复文件
+```bash
+git restore --source=develop config.json
+
+```
+会用 develop 分支的 config.json 覆盖当前分支同名文件。
+---
+### 对比
+---
+✅ 小结：git restore 的优势在于语义清晰，命令更具体，降低误操作风险。它主要用于“恢复文件内容”，而切换分支则由 git switch 完成。
+---
 # Git LFS 使用
 ```bash
 git lfs track "*.pt"
