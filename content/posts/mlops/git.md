@@ -11,7 +11,7 @@ categories: ["MLOps"]
 ```bash
 git init --bare myproject.git
 ```
-![](/images/posts/2a094928-1-c7290d98.png)
+![](/images/posts/2a094928-1-c93981a9.png)
 使用方式:
 ```bash
 mkdir /srv/git/
