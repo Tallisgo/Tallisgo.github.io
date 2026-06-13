@@ -29,8 +29,8 @@ git checkout 1.10.1-fix.1
 # 问题
 升级过程中遇到以下情况：
 1. 配置的时候数据库选择的是 Postgres ， compose.yaml 中 对应的service name 改变了，所以.env 中 db_host 需要修改。
-![](/images/posts/2c394928-1-7a1d9d49.png)
-![](/images/posts/2c394928-2-67355d1a.png)
+![](/images/posts/2c394928-1-26d7bf11.png)
+![](/images/posts/2c394928-2-53e092e3.png)
 1. 我在恢复的时候出现数据丢失情况， workspace 中添加的成员全部丢失，另外工作流丢失部分，这很奇怪，但是我还没找到原因（不敢随意乱动）。好在之前备份了数据库，基于备份找回了原先内容。
 - 备份脚本:
 ```bash
