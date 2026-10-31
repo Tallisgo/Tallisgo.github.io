@@ -29,8 +29,8 @@ git checkout 1.10.1-fix.1
 # 问题
 升级过程中遇到以下情况：
 1. 配置的时候数据库选择的是 Postgres ， compose.yaml 中 对应的service name 改变了，所以.env 中 db_host 需要修改。
-![](/images/posts/2c394928-1-37849131.png)
-![](/images/posts/2c394928-2-07aef12a.png)
+![](https://prod-files-secure.s3.us-west-2.amazonaws.com/59329e78-b6dc-44ba-b40f-456e9ba57b5f/3d723cf1-05c3-47ed-8e2e-ef35bf9eeb63/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466SFDC44BK%2F20261031%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20261031T040020Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHsaCXVzLXdlc3QtMiJHMEUCIQC4asH0TcSP9QW0nhesVm3x1NRqIRE%2BE0h2u2LMANaFfgIgOe2ZXVkWV2r1IU4DxUMLAtt8gC9Icpj6VLwgsp%2BoS%2Foq%2FwMIRBAAGgw2Mzc0MjMxODM4MDUiDGBIGOEJgCuVUV3IGSrcA72BuoglUKnP85%2FcVz54PtiRrlW2wQ1rVaQz2FDF39RFp%2BJ9Ct8dPC4%2FDQdOwzwalZoTjL57RObTLoSECv4MPhfH3u04fharGYBXsld1Jw2bFm55SitkYqTsrzAz1ddyJ6nU0%2Bbd%2Ftz5caPymyFlHghF0ySFWF05GWtATKbkF7x5jd2ldOmKjit4dEouYYOJCDQ6YEA5OcdJht6TkPaDNPcOcPaEc0NNTF4oROdoQUTRZFTbgc62gJq%2FHBv0kO49xJZ3dqs50cKot0d0qvYGYc2zqyLKCrClFdCMAzJ1%2BCSQxYgaYjBcwJjXgOxB77vJyoxWjjKpMtuhu7ZA7Ks%2FzOXjrlksyDC%2FF%2Fn%2FyR1M%2Biq3%2FBepTb6u4fxq3uvrk%2BvBMSTjKK8Ff0XseznYT4SKUQEY0m%2F3GveQeEj0x0GnyWjt%2BqKZAJw8GRbiaVVdmcH%2B%2B5VPZQF6fbfq0G%2BplzT7hh%2BqFWfVPSSBPWFUcJ1tvO2tg5yCyTUOpUyeDzKnciQZuVtp0lfSNP0pZjsrFHsP5AcBHy7wrJTYPcXaFE4eNYIddTcpzQXdCMY2Q%2BOBqhdbxaAnJhFA5VIdE5rN9Py9xpq3ivDCqxMbeAWnQXDD7U2V6%2FsWlGsplNku4DH6MPCuldcGOqUBbKCI4mswL4G1bFF8ErEzhyKeymELvEuytlm%2FDqVGUUdDLOixn8t5IO4jShni%2B1r5YF1NvQYiffn4mBCw%2BBxpGqmlylOKhrRbmojXCVZPV8l12j5nbSBcQ5Mao%2FDHBEolXA1IxKatczb5qqStIhrnEV6upi4AwiXL2Tgy4WiMUZarPjXog7ifYCI4WCR8dgl84M90O0lpCiyO3pep4GO48WQdGFMh&X-Amz-Signature=94b1ea793b6c24236804e98ac81573cdf1632cac2f190b6bb165eaceffb2a293&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject)
+![](/images/posts/2c394928-2-bd3c0021.png)
 1. 我在恢复的时候出现数据丢失情况， workspace 中添加的成员全部丢失，另外工作流丢失部分，这很奇怪，但是我还没找到原因（不敢随意乱动）。好在之前备份了数据库，基于备份找回了原先内容。
 - 备份脚本:
 ```bash
